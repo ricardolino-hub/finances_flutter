@@ -1,69 +1,50 @@
-# Projeto de Programação -- README
+# Projeto de Finanças
 
 ## 📌 Sobre o Projeto
-
-Este projeto foi desenvolvido para servir como base de estudo e
-referência. Ele inclui uma estrutura organizada, boas práticas de código
-e um fluxo simples de instalação e execução.
+App simples de controle financeiro (salário + gastos) - clean architecture
 
 ## 🏗️ Tecnologias Utilizadas
 
--   Linguagem: *Defina aqui*
--   Framework: *Defina aqui*
--   Banco de dados: *Defina aqui*
--   Outras dependências relevantes
+-   Flutter 3.x
+- Dart
+- Provider (gerenciamento de estado)
+- UUID (geração de IDs únicos)
+- Material Design
+- Testes unitários com flutter_test
 
 ## 📂 Estrutura do Projeto
 
     /src
-      /controllers
-      /services
-      /models
-      /views
+      /core
+      /data
+      /domain
+      /presentation
     /tests
-    /docs
     README.md
 
 ## 🚀 Como Executar
 
 ### 1. Pré‑requisitos
 
--   Python / Node / Java / etc.
--   Dependências instaladas
--   Banco de dados configurado
+-   Flutter (stable)
+-   Java 17+
 
 ### 2. Instalação
 
 ``` bash
-git clone <url-do-repositorio>
-cd <nome-do-projeto>
-<instalar-dependencias>
+git clone https://github.com/ricardolino-hub/finances_flutter.git
+cd finance_app
+flutter pub get
 ```
 
 ### 3. Executando o Projeto
 
 ``` bash
-<comando-para-execucao>
+flutter run
 ```
 
 ## 🧪 Testes
 
 ``` bash
-<comando-para-testes>
+flutter run
 ```
-
-## 🤝 Contribuição
-
-Contribuições são bem-vindas!\
-Para contribuir: 1. Faça um fork do repositório 2. Crie uma nova branch
-3. Commit suas alterações 4. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT.\
-Sinta-se livre para usar e modificar conforme necessário.
-
-------------------------------------------------------------------------
-
-Se precisar personalizar o README com detalhes específicos do seu
-projeto, posso ajustar tudo para você.
