@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
           final totalExpenses = ctrl.expenses.fold(0.0, (p, e) => p + e.amount);
           final percent = (salary <= 0) ? 0.0 : (totalExpenses / salary);
           final color = _colorForPercent(percent);
+          final remaining = salary - totalExpenses;
 
           return Column(
             children: [
@@ -57,11 +58,11 @@ class HomePage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                formatCurrency(salary),
+                                formatCurrency(remaining),
                                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 6),
-                              const Text('Salário', style: TextStyle(fontSize: 14)),
+                              Text(formatCurrency(salary), style: TextStyle(fontSize: 14)),
                             ],
                           ),
                         ],
