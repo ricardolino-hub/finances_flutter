@@ -63,11 +63,11 @@ class HomePage extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  formatCurrency(remaining),
+                                  'R\$${formatCurrency(remaining)}',
                                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 6),
-                                Text(formatCurrency(salary), style: TextStyle(fontSize: 14)),
+                                Text('R\$${formatCurrency(salary)}', style: TextStyle(fontSize: 14)),
                               ],
                             ),
                           ),
