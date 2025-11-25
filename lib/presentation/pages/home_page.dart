@@ -1,5 +1,5 @@
-import 'dart:ui';
-
+import 'package:finance_app/core/widgets/circle_progress_painter.dart';
+import 'package:finance_app/core/widgets/container_blur.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/utils/currency_formatter.dart';
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
                             emptyColor: Colors.grey.shade300,
                           ),
                         ),
-                        _BlurIfNeeded(
+                        BlurIfNeeded(
                           enabled: !showSalary,
                           child: GestureDetector(
                             onTap: () async {
@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
                           top: 20,
                           right: 60,
                           child: Transform.scale(
-                            scale: 0.7, // ➜ tamanho reduzido
+                            scale: 0.7,
                             child: Switch(
                               value: showSalary,
                               onChanged: ctrl.toggleShowSalary,
@@ -182,67 +182,6 @@ class HomePage extends StatelessWidget {
           child: const Icon(Icons.add),
         );
       }),
-    );
-  }
-}
-
-class CircleProgressPainter extends CustomPainter {
-  final double percent;
-  final Color color;
-  final Color emptyColor;
-
-  CircleProgressPainter({required this.percent, required this.color, required this.emptyColor});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final stroke = size.width * 0.08;
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width - stroke) / 2;
-
-    final bgPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..color = emptyColor
-      ..strokeCap = StrokeCap.round;
-
-    final fgPaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke
-      ..color = color
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawCircle(center, radius, bgPaint);
-
-    final sweep = 2 * 3.141592653589793 * percent;
-    final rect = Rect.fromCircle(center: center, radius: radius);
-    final start = -3.141592653589793 / 2;
-
-    if (percent > 0) {
-      canvas.drawArc(rect, start, sweep, false, fgPaint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CircleProgressPainter oldDelegate) {
-    return oldDelegate.percent != percent || oldDelegate.color != color || oldDelegate.emptyColor != emptyColor;
-  }
-}
-
-class _BlurIfNeeded extends StatelessWidget {
-  final bool enabled;
-  final Widget child;
-
-  const _BlurIfNeeded({required this.enabled, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    if (!enabled) return child;
-
-    return ClipRect(
-      child: ImageFiltered(
-        imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-        child: child,
-      ),
     );
   }
 }

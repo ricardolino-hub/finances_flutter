@@ -8,7 +8,7 @@ void main() {
 
   group('LocalDataSource', () {
     setUp(() {
-      SharedPreferences.setMockInitialValues({}); // clean
+      SharedPreferences.setMockInitialValues({}); 
     });
 
     test('save and get salary', () async {
