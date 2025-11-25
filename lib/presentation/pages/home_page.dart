@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/utils/currency_formatter.dart';
@@ -27,49 +29,65 @@ class HomePage extends StatelessWidget {
           final percent = (salary <= 0) ? 0.0 : (totalExpenses / salary);
           final color = _colorForPercent(percent);
           final remaining = salary - totalExpenses;
+          final showSalary = ctrl.showSalary;
 
           return Column(
             children: [
               const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () async {
-                  final newSalary = await MoneyInputDialog.show(context, initialValue: salary);
-                  if (newSalary != null) {
-                    await ctrl.setSalary(newSalary);
-                  }
-                },
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CustomPaint(
-                            size: const Size(180, 180),
-                            painter: CircleProgressPainter(
-                              percent: percent.clamp(0.0, 1.0),
-                              color: color,
-                              emptyColor: Colors.grey.shade300,
+              Column(
+                children: [
+                  SizedBox(
+                    width: 180,
+                    height: 180,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CustomPaint(
+                          size: const Size(180, 180),
+                          painter: CircleProgressPainter(
+                            percent: percent.clamp(0.0, 1.0),
+                            color: color,
+                            emptyColor: Colors.grey.shade300,
+                          ),
+                        ),
+                        _BlurIfNeeded(
+                          enabled: !showSalary,
+                          child: GestureDetector(
+                            onTap: () async {
+                              final newSalary = await MoneyInputDialog.show(context, initialValue: salary);
+                              if (newSalary != null) {
+                                await ctrl.setSalary(newSalary);
+                              }
+                            },
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  formatCurrency(remaining),
+                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(formatCurrency(salary), style: TextStyle(fontSize: 14)),
+                              ],
                             ),
                           ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                formatCurrency(remaining),
-                                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(formatCurrency(salary), style: TextStyle(fontSize: 14)),
-                            ],
+                        ),
+                        Positioned(
+                          top: 20,
+                          right: 60,
+                          child: Transform.scale(
+                            scale: 0.7, // ➜ tamanho reduzido
+                            child: Switch(
+                              value: showSalary,
+                              onChanged: ctrl.toggleShowSalary,
+                              activeThumbColor: Colors.grey.shade600,
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               const SizedBox(height: 10),
               Expanded(
@@ -207,5 +225,24 @@ class CircleProgressPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CircleProgressPainter oldDelegate) {
     return oldDelegate.percent != percent || oldDelegate.color != color || oldDelegate.emptyColor != emptyColor;
+  }
+}
+
+class _BlurIfNeeded extends StatelessWidget {
+  final bool enabled;
+  final Widget child;
+
+  const _BlurIfNeeded({required this.enabled, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!enabled) return child;
+
+    return ClipRect(
+      child: ImageFiltered(
+        imageFilter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+        child: child,
+      ),
+    );
   }
 }

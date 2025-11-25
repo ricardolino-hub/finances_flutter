@@ -14,6 +14,7 @@ class FinanceController extends ChangeNotifier {
   double salary = 0.0;
   List<Expense> expenses = [];
   bool loading = false;
+  bool showSalary = false;
 
   FinanceController({required this.repository});
 
@@ -58,5 +59,10 @@ class FinanceController extends ChangeNotifier {
   Future<FinanceSummary> getSummary() async {
     final usecase = GetFinanceSummary(getSalary: repository.getSalary, getExpenses: repository.getExpenses);
     return await usecase();
+  }
+
+  void toggleShowSalary(bool value) {
+    showSalary = !showSalary;
+    notifyListeners();
   }
 }
