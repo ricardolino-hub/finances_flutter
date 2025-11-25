@@ -167,6 +167,9 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: Consumer<FinanceController>(builder: (context, ctrl, _) {
         return FloatingActionButton(
+          backgroundColor: Colors.grey.withValues(alpha: 0.5),
+          foregroundColor: Colors.black87,
+          elevation: 0,
           onPressed: () async {
             final res = await MoneyInputDialog.showExpenseDialog(context);
             if (res != null) {
